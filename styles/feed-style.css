@@ -1,0 +1,21 @@
+.feed-container {
+    width: 25vw;
+    height: 25vh;
+    position: relative;
+}
+
+.webcam {
+    width: 25vw;
+    height: 19vw;
+    border: 3px solid gold;
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: absolute;
+}
+
+.canvas {
+    width: 25vw;
+    height: 19vw;
+    position: absolute;
+}

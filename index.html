@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/game-style.css">
+    <link rel="stylesheet" href="styles/feed-style.css">
+    <link rel="stylesheet" href="styles/training-style.css">
+    <link rel="stylesheet" href="styles/controls-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <title>Hand Detection Game</title>
+</head>
+<body>
+<main class="container">
+    <section class="content-container">
+        <section class="game-display">
+            <section class="container-frieren">
+                <section class="pfp-container-frieren">
+                    <img class="pfp-frieren" src="assets/frieren.png">
+                </section>
+                <div class="health-bar">
+                    <div class="frieren-health"></div>
+                </div>
+            </section>
+            <span class="fight-text"></span>
+            <section class="container-orcs">
+                <section class="pfp-container-orcs">
+                    <img class="pfp-orcs" src="assets/orcs.jpg">
+                </section>
+                <div class="health-bar">
+                    <div class="orcs-health"></div>
+                </div>
+            </section>
+        </section>
+    </section>
+    <section class="player-container">
+        <section class="feed-container">
+            <video id="webcam" class="webcam" autoplay></video>
+            <canvas id="canvas" class="canvas"></canvas>
+        </section>
+        <section class="input-panel">
+            <section class="training-main">
+                <span class="training-title">Model training</span>
+                <section class="training-content">
+                    <select id="actionDropdown">
+                        <option value="shield">Shield</option>
+                        <option value="attack">Attack</option>
+                        <option value="heal">Heal</option>
+                    </select>
+                    <button class="training-button">Train</button>
+                    <button class="training-button">Save</button>
+                </section>
+            </section>
+            <section class="controls-panel">
+                <span class="controls-title">Controls</span>
+                <button id="start-button" class="start-button">Start</button>
+                <section class="controls">
+                    <section class="button-container">
+                        <button class="shield-button disabled">Shield</button>
+                        <div class="cooldown-bar" id="shield-timer"></div>
+                    </section>
+                    <section class="button-container">
+                        <button class="attack-button disabled">Attack</button>
+                        <div class="cooldown-bar" id="attack-timer"></div>
+                    </section>
+                    <section class="button-container">
+                        <button class="heal-button disabled">Heal</button>
+                        <div class="cooldown-bar" id="heal-timer"></div>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+</main>
+<script src="game.js"></script>
+<script src="script.js" type="module"></script>
+</body>
+</html>

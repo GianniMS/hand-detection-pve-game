@@ -1,0 +1,116 @@
+.game-display {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 55vw;
+    height: 25vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(106deg, rgba(109,184,244,0.7904411764705882) 0%, rgba(70,189,80,1) 100%);
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    border: 3px solid gold;
+}
+
+.container-frieren {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pfp-container-frieren {
+    width: 120px;
+    height: 120px;
+    border-radius: 150px;
+    overflow: hidden;
+    border: gold solid 5px;
+}
+
+.pfp-frieren {
+    margin-top: -10px;
+    width: 100%;
+    height: 100%;
+    scale: 1.2;
+}
+
+.container-orcs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pfp-container-orcs {
+    width: 120px;
+    height: 120px;
+    border-radius: 150px;
+    overflow: hidden;
+    border: darkgreen solid 5px;
+}
+
+.pfp-orcs {
+    width: 100%;
+    height: 100%;
+}
+
+.health-bar {
+    width: 200px; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    background-color: #ddd; /* Gray background */
+    border: 1px solid #333; /* Black border */
+    margin-top: 5px; /* Adjust spacing as needed */
+}
+
+.health-bar div {
+    height: 100%;
+    background-color: green; /* Green color for health */
+}
+
+.blast {
+    position: absolute;
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+}
+
+.orc-blast {
+    transform: scaleX(-1); /* Flip horizontally */
+    position: absolute;
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+}
+
+.shield {
+    width: 200px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute;
+}
+
+.heal {
+    width: 100px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute;
+}
+
+.disabled {
+    filter: grayscale(100%);
+}
+
+.cooldown-bar {
+    width: 100%;
+    height: 5px;
+    background-color: #ddd;
+    position: relative;
+    overflow: hidden;
+}
+
+.cooldown-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: cornflowerblue; /* Default color */
+    transition: width 0.1s linear;
+}

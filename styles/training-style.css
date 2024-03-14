@@ -1,0 +1,21 @@
+.training-main {
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.training-title {
+    font-size: 20px;
+    color: rebeccapurple;
+}
+
+.training-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.training-button {
+    height: 30px;
+}
