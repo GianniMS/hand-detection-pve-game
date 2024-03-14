@@ -104,7 +104,3 @@ async function predictWebcam() {
         window.requestAnimationFrame(predictWebcam);
     }
 }
-
-document.getElementById("actionDropdown").addEventListener("change", function() {
-    let selectedOption = this.value;
-});
