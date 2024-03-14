@@ -134,4 +134,7 @@ document.querySelectorAll('.training-button')[1].addEventListener('click', () =>
     link.download = 'training_data.json';
     // Simulate click on the link to trigger download
     link.click();
+
+    // Clear the training data after saving
+    trainingData = [];
 });
