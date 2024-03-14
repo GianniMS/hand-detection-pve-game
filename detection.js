@@ -8,6 +8,9 @@ let runningMode = "VIDEO";
 let enableWebcamButton = HTMLButtonElement;
 let webcamRunning = false;
 
+// Array to store training data
+let trainingData = [];
+
 // Before we can use HandLandmarker class we must wait for it to finish
 // loading. Machine Learning models can be large and take a moment to
 // get everything needed to run.
@@ -69,9 +72,9 @@ function enableCam(event) {
 
 let lastVideoTime = -1;
 let results = undefined;
-console.log(video);
+
 async function predictWebcam() {
-    canvasElement.style.width = video.videoWidth;;
+    canvasElement.style.width = video.videoWidth;
     canvasElement.style.height = video.videoHeight;
     canvasElement.width = video.videoWidth;
     canvasElement.height = video.videoHeight;
@@ -104,3 +107,31 @@ async function predictWebcam() {
         window.requestAnimationFrame(predictWebcam);
     }
 }
+
+// Event listener for Train button
+document.querySelectorAll('.training-button')[0].addEventListener('click', () => {
+    if (results && results.landmarks) {
+        const action = document.getElementById('actionDropdown').value;
+        // Add landmarks and action to training data
+        trainingData.push({ landmarks: results.landmarks, action: action });
+        // Update the count for the selected action
+        document.getElementById(`${action}-count`).innerText = parseInt(document.getElementById(`${action}-count`).innerText) + 1;
+    }
+});
+
+// Event listener for Save button
+document.querySelectorAll('.training-button')[1].addEventListener('click', () => {
+    // Convert training data to JSON
+    const jsonData = JSON.stringify(trainingData);
+    // Create a blob with the JSON data
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    // Create a URL for the blob
+    const url = URL.createObjectURL(blob);
+    // Create a link element
+    const link = document.createElement('a');
+    // Set link attributes
+    link.href = url;
+    link.download = 'training_data.json';
+    // Simulate click on the link to trigger download
+    link.click();
+});
