@@ -8,6 +8,10 @@ let runningMode = "VIDEO";
 let enableWebcamButton = HTMLButtonElement;
 let webcamRunning = false;
 
+let shieldCounter = 0;
+let attackCounter = 0;
+let healCounter = 0;
+
 // Array to store training data
 let trainingData = [];
 
@@ -114,8 +118,6 @@ document.querySelectorAll('.training-button')[0].addEventListener('click', () =>
         const action = document.getElementById('actionDropdown').value;
         // Add landmarks and action to training data
         trainingData.push({ landmarks: results.landmarks, action: action });
-        // Update the count for the selected action
-        document.getElementById(`${action}-count`).innerText = parseInt(document.getElementById(`${action}-count`).innerText) + 1;
     }
 });
 
