@@ -41,7 +41,7 @@ function startFight() {
         orcsHealth = 100;
         fightStarted = true;
         // Start Orcs' automatic attack every 7 seconds
-        orcAttackInterval = setInterval(orcAttack, 5000); // Assign interval reference to global variable
+        orcAttackInterval = setInterval(orcAttack, 4500); // Assign interval reference to global variable
         // Display "Fight!" text
         const fightText = document.querySelector('.fight-text');
         fightText.innerText = "Fight!";
