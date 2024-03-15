@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-    <title>Hand Detection Game</title>
+    <title>Hand Detection PvE Game</title>
 </head>
 <body>
 <main class="container">
@@ -48,6 +48,7 @@
         <section class="input-panel">
             <section class="training-main">
                 <span class="training-title">Model training</span>
+                <button id="start-training" class="start-training">Start training</button>
                 <section class="training-content">
                     <select id="actionDropdown">
                         <option value="shield">Shield</option>
@@ -60,7 +61,7 @@
             </section>
             <section class="controls-panel">
                 <span class="controls-title">Controls</span>
-                <button id="start-button" class="start-button">Start</button>
+                <button id="start-button" class="start-button">Start game</button>
                 <section class="controls">
                     <section class="button-container">
                         <button class="shield-button disabled">Shield</button>
@@ -81,6 +82,7 @@
 </main>
 <script src="scripts/script.js"></script>
 <script src="scripts/game.js"></script>
-<script src="detection.js" type="module"></script>
+<script src="scripts/detection.js" type="module"></script>
+<script src="scripts/training.js" type="module"></script>
 </body>
 </html>

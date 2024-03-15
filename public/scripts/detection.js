@@ -8,13 +8,6 @@ let runningMode = "VIDEO";
 let enableWebcamButton = HTMLButtonElement;
 let webcamRunning = false;
 
-let shieldCounter = 0;
-let attackCounter = 0;
-let healCounter = 0;
-
-// Array to store training data
-let trainingData = [];
-
 // Before we can use HandLandmarker class we must wait for it to finish
 // loading. Machine Learning models can be large and take a moment to
 // get everything needed to run.
@@ -111,32 +104,3 @@ async function predictWebcam() {
         window.requestAnimationFrame(predictWebcam);
     }
 }
-
-// Event listener for Train button
-document.querySelectorAll('.training-button')[0].addEventListener('click', () => {
-    if (results && results.landmarks) {
-        const action = document.getElementById('actionDropdown').value;
-        // Add landmarks and action to training data
-        trainingData.push({ landmarks: results.landmarks, action: action });
-    }
-});
-
-// Event listener for Save button
-document.querySelectorAll('.training-button')[1].addEventListener('click', () => {
-    // Convert training data to JSON
-    const jsonData = JSON.stringify(trainingData);
-    // Create a blob with the JSON data
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    // Create a URL for the blob
-    const url = URL.createObjectURL(blob);
-    // Create a link element
-    const link = document.createElement('a');
-    // Set link attributes
-    link.href = url;
-    link.download = 'training_data.json';
-    // Simulate click on the link to trigger download
-    link.click();
-
-    // Clear the training data after saving
-    trainingData = [];
-});
