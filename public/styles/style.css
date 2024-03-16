@@ -25,6 +25,14 @@
     justify-content: space-between;
 }
 
+.results-container {
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .player-container {
     width: 55vw;
     height: 40vh;

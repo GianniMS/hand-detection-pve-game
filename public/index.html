@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/feed-style.css">
     <link rel="stylesheet" href="styles/training-style.css">
     <link rel="stylesheet" href="styles/controls-style.css">
+    <link rel="stylesheet" href="styles/results-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
             crossorigin="anonymous"></script>
@@ -39,6 +40,10 @@
             </section>
         </section>
     </section>
+    <section class="results-container">
+        <span class="ability-display">You used shield</span>
+        <span class="accuracy-display">Accuracy: 85%</span>
+    </section>
     <section class="player-container">
         <section class="feed-container">
             <video id="webcam" class="webcam" autoplay></video>
@@ -49,14 +54,17 @@
                 <span class="training-title">Model training</span>
                 <button id="start-training" class="start-training">Start training</button>
                 <section class="training-content">
-                    <select id="actionDropdown">
-                        <option value="shield">Shield</option>
-                        <option value="attack">Attack</option>
-                        <option value="heal">Heal</option>
-                        <option value="idle">Idle</option>
+                    <select id="actionDropdown" class="dropdown">
+                        <option value="shield" class="dropdown-item">Shield &#9995;</option>
+                        <option value="attack" class="dropdown-item">Attack &#128073;</option>
+                        <option value="heal" class="dropdown-item">Heal &#9996;</option>
+                        <option value="idle" class="dropdown-item">Idle &#128074;</option>
                     </select>
-                    <button class="training-button">Train</button>
-                    <button class="training-button">Save</button>
+                    <section class="t-buttons">
+                        <button class="training-button-1">Train</button>
+                        <section class="line"></section>
+                        <button class="training-button-2">Save</button>
+                    </section>
                 </section>
             </section>
             <section class="controls-panel">

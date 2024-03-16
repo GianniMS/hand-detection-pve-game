@@ -111,6 +111,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: cornflowerblue; /* Default color */
+    background-color: yellow; /* Default color */
     transition: width 0.1s linear;
 }
