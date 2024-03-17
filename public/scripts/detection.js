@@ -3,6 +3,40 @@ import {
     FilesetResolver
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0";
 
+async function sendLandmarksForPrediction(landmarks) {
+    // Flatten the landmarks into a single array
+    const flattenedLandmarks = landmarks.flatMap(point => [point.x, point.y, point.z]);
+
+    const response = await fetch('/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ landmarks: flattenedLandmarks })
+    });
+    const data = await response.json();
+    console.log(`Prediction result: ${data.prediction}`);
+    // Update UI based on prediction result
+    updateUI(data.prediction);
+
+}
+
+function updateUI(prediction) {
+    // Get the element to update
+    const abilityDisplay = document.querySelector('.ability-display');
+
+    // Map prediction to the corresponding ability
+    const abilityMap = {
+        "shield": "You used: Shield",
+        "attack": "You used: Attack",
+        "heal": "You used: Heal",
+        "idle": "Idle pose"
+    };
+
+    // Update the UI with the corresponding ability
+    abilityDisplay.textContent = abilityMap[prediction];
+}
+
 let handLandmarker = undefined;
 let runningMode = "VIDEO";
 let enableWebcamButton = HTMLButtonElement;
@@ -95,6 +129,8 @@ async function predictWebcam() {
                 lineWidth: 5
             });
             drawLandmarks(canvasCtx, landmarks, { color: "#6495ed", lineWidth: 2 });
+            // Send landmarks for prediction
+            await sendLandmarksForPrediction(landmarks);
         }
     }
     canvasCtx.restore();

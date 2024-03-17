@@ -119,8 +119,12 @@ async function predictWebcam() {
 document.querySelectorAll('.training-button')[0].addEventListener('click', () => {
     if (results && results.landmarks) {
         const action = document.getElementById('actionDropdown').value;
+
+        // Flatten the landmarks into a single array
+        const flattenedLandmarks = results.landmarks.flatMap(landmark => landmark.flatMap(point => [point.x, point.y, point.z]));
+
         // Add landmarks and action to training data
-        trainingData.push({ landmarks: results.landmarks, action: action });
+        trainingData.push({ landmarks: flattenedLandmarks, action: action });
     }
 });
 
