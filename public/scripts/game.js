@@ -41,7 +41,7 @@ function startFight() {
         orcsHealth = 100;
         fightStarted = true;
         // Start Orcs' automatic attack every 7 seconds
-        orcAttackInterval = setInterval(orcAttack, 4500); // Assign interval reference to global variable
+        orcAttackInterval = setInterval(orcAttack, 6000); // Assign interval reference to global variable
         // Display "Fight!" text
         const fightText = document.querySelector('.fight-text');
         fightText.innerText = "Fight!";
@@ -180,16 +180,8 @@ function activateShield() {
     // Append gif to the game display
     document.querySelector('.game-display').appendChild(shieldGif);
 
-    // Add event listener for button release to deactivate shield and activate Orcs' heal
-    document.querySelector('.shield-button').addEventListener('mouseup', () => {
-        deactivateShield();
-    });
-    document.querySelector('.shield-button').addEventListener('mouseleave', () => {
-        deactivateShield();
-    });
-    document.querySelector('.shield-button').addEventListener('touchend', () => {
-        deactivateShield();
-    });
+    // Set a timeout to deactivate the shield after 3 seconds
+    setTimeout(deactivateShield, 3000);
 
     // Activate Orcs' heal when shield is used
     activateOrcsHeal();
@@ -338,37 +330,40 @@ function dealDamageToFrieren(damage) {
         updateHealthBars(); // Update health bars after taking damage
     }
 }
+// Function to trigger abilities based on the value of the ability display
+function triggerAbility() {
+    const abilityDisplay = document.querySelector('.ability-display');
+    const ability = abilityDisplay.innerText.trim(); // Get the text content and remove any leading/trailing whitespace
+    console.log('Displayed ability:', ability); // Log the displayed ability for debugging
 
-// Event listener for attack button
-document.querySelector('.attack-button').addEventListener('click', function () {
-    if (fightStarted && attackCooldown === 0) {
-        attack();
-        startCooldown('attack');
+    // Trigger abilities based on the displayed ability
+    switch (ability) {
+        case 'You used: Shield':
+            if (fightStarted && shieldCooldown === 0) {
+                activateShield();
+                startCooldown('shield');
+            }
+            break;
+        case 'You used: Attack':
+            if (fightStarted && attackCooldown === 0) {
+                attack();
+                startCooldown('attack');
+            }
+            break;
+        case 'You used: Heal':
+            if (fightStarted && healCooldown === 0) {
+                activateHeal();
+                startCooldown('heal');
+            }
+            break;
+        default:
+            // Do nothing for other abilities
+            break;
     }
-});
+}
 
-// Event listener for heal button
-document.querySelector('.heal-button').addEventListener('click', function () {
-    if (fightStarted && healCooldown === 0) {
-        activateHeal();
-        startCooldown('heal');
-    }
-});
-
-// Event listener for shield button
-document.querySelector('.shield-button').addEventListener('mousedown', function () {
-    if (fightStarted && shieldCooldown === 0) {
-        activateShield();
-    }
-});
-
-document.querySelector('.shield-button').addEventListener('mouseup', function () {
-    if (fightStarted && shieldCooldown === 0) {
-        startCooldown('shield');
-    }
-});
-
-// Initial health bar update
+// Call the triggerAbility function periodically to check for ability changes
+setInterval(triggerAbility, 1000); // Adjust the interval as needed// Initial health bar update
 updateHealthBars();
 // Update cooldown timers every 100 milliseconds
 setInterval(handleCooldowns, 100);
