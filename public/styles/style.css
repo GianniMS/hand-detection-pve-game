@@ -26,7 +26,7 @@
 }
 
 .results-container {
-    height: 10vh;
+    height: 8vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,7 +35,7 @@
 
 .player-container {
     width: 55vw;
-    height: 40vh;
+    height: 50vh;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -46,6 +46,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 40vh;
+    height: 50vh;
     width: 25vw;
 }

@@ -8,50 +8,77 @@ import fs from 'fs';
 const app = express();
 const port = 3000;
 
-// Get the directory name of the current module
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Serve static files from the 'public' directory
 app.use(express.static(join(__dirname, 'public')));
 
-// Define route for serving index.html
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
-// Load the KNN model
 const k = 3;
 const machine = new knn.kNear(k);
 
-// Read the JSON file synchronously
 const jsonData = fs.readFileSync('public/training_data.json');
 const newData = JSON.parse(jsonData);
 
-newData.forEach(({ landmarks, action }, index) => {
-    console.log(`Processing data point ${index + 1}: action=${action}`);
-    // Since landmarks are now represented as a single flattened array, directly pass them to the learn function
+// Shuffle the data
+newData.sort(() => Math.random() - 0.5);
+
+// Split the data into training and testing datasets
+const splitIndex = Math.floor(newData.length * 0.8);
+const trainData = newData.slice(0, splitIndex);
+const testData = newData.slice(splitIndex);
+
+// Train the KNN model using the training dataset
+trainData.forEach(({ landmarks, action }, index) => {
     machine.learn(landmarks, action);
 });
 
-// Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
-// Endpoint to handle predictions
 app.post('/predict', (req, res) => {
     try {
         const landmarks = req.body.landmarks;
-
-        // Classify the landmarks using the KNN model
         const prediction = machine.classify(landmarks);
-
         res.json({ prediction });
     } catch (error) {
-        console.error('Error processing landmarks data:', error); // Log error
-        res.status(500).json({ error: 'Internal server error' }); // Send error response
+        console.error('Error processing landmarks data:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
-// Start the server
+// Route for handling test rounds
+app.post('/test', (req, res) => {
+    try {
+        const landmarks = req.body.landmarks;
+        const prediction = machine.classify(landmarks);
+        res.json({ prediction });
+    } catch (error) {
+        console.error('Error processing test round:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Route for receiving feedback on predictions
+let correctPredictions = 0;
+app.post('/feedback', (req, res) => {
+    try {
+        const { correct } = req.body;
+        if (correct) {
+            correctPredictions = Math.min(correctPredictions + 1, testData.length);
+        } else {
+            correctPredictions = Math.max(correctPredictions - 1, 0);
+        }
+        const accuracy = (correctPredictions / testData.length) * 100;
+        console.log(`Accuracy: ${accuracy}%`);
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error processing feedback:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
 });
