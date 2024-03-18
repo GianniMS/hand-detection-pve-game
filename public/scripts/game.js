@@ -2,8 +2,10 @@
 let frierenHealth = 100;
 let orcsHealth = 100;
 
-let fightStarted = false; // Variable to track if the fight has started
-let shieldActive = false; // Variable to track if shield is active
+// Variable to track if the fight has started
+let fightStarted = false;
+// Variable to track if shield is active
+let shieldActive = false;
 
 let orcAttackInterval;
 
@@ -18,7 +20,7 @@ let shieldCooldown = 0;
 
 function endGame(message) {
     fightStarted = false;
-    // Stop Orcs' automatic attack
+    // Stop Orcs automatic attack
     clearInterval(orcAttackInterval);
     // Display endgame message
     const fightText = document.querySelector('.fight-text');
@@ -28,7 +30,7 @@ function endGame(message) {
     fightText.style.fontSize = "40px";
     // Enable the start button
     document.querySelector('.start-button').classList.remove('disabled');
-    // Add the "disabled" class back to buttons
+    // Add the disabled class back to buttons
     document.querySelectorAll('.attack-button, .heal-button, .shield-button').forEach(function(button) {
         button.classList.add('disabled');
     });
@@ -36,16 +38,14 @@ function endGame(message) {
 
 function startFight() {
     if (!fightStarted) {
-        // Reset health for both players
+        // Reset health
         frierenHealth = 100;
         orcsHealth = 100;
         fightStarted = true;
-        // Start Orcs' automatic attack every 7 seconds
+        // Start Orcs automatic attack
         orcAttackInterval = setInterval(orcAttack, 6000); // Assign interval reference to global variable
-        // Display "Fight!" text
         const fightText = document.querySelector('.fight-text');
         fightText.innerText = "Fight!";
-        // Apply styling to the "Fight!" text
         fightText.style.color = "darkred";
         fightText.style.fontSize = "40px";
         // Update health bars
@@ -71,12 +71,12 @@ function updateCooldownTimers() {
 function updateTimer(timerClass, cooldown, cooldownDuration) {
     const timerElement = document.querySelector(timerClass);
     if (cooldown === 0) {
-        timerElement.style.width = '100%'; // Full green bar when available
+        timerElement.style.width = '100%';
     } else {
         timerElement.style.width = (cooldown / cooldownDuration * 100) + '%';
     }
 }
-// Function to handle cooldowns
+
 function handleCooldowns() {
     if (attackCooldown > 0) {
         attackCooldown -= 0.1;
@@ -93,7 +93,6 @@ function handleCooldowns() {
     updateCooldownTimers();
 }
 
-// Function to start cooldown for a specific ability
 function startCooldown(ability) {
     switch (ability) {
         case 'attack':
@@ -108,13 +107,12 @@ function startCooldown(ability) {
     }
 }
 
-// Function to update health bars
 function updateHealthBars() {
     // Update Frieren's health bar
     let frierenHealthBar = document.querySelector('.frieren-health');
     frierenHealthBar.style.width = (frierenHealth + '%');
 
-    // Update Orcs' health bar
+    // Update Orcs health bar
     let orcsHealthBar = document.querySelector('.orcs-health');
     orcsHealthBar.style.width = (orcsHealth + '%');
 }
@@ -145,14 +143,14 @@ function attack() {
         distance += 5; // Adjust the speed of the blast
         blastGif.style.left = distance + 'px';
 
-        // Check if the gif hits the Orcs' pfp
+        // Check if the gif hits the Orcs pfp
         if (distance >= document.querySelector('.pfp-container-orcs').offsetLeft) {
             clearInterval(blastInterval); // Stop the animation
             document.querySelector('.game-display').removeChild(blastGif); // Remove the gif
             // Deal damage to Orcs
             dealDamageToOrcs(25);
         }
-    }, 20); // Adjust the interval as needed
+    }, 20);
 }
 
 // Function to deal damage to Orcs
@@ -162,7 +160,7 @@ function dealDamageToOrcs(damage) {
         orcsHealth = 0;
         endGame("You Won!");
     }
-    updateHealthBars(); // Update health bars after taking damage
+    updateHealthBars();
 }
 
 function activateShield() {
@@ -215,27 +213,27 @@ function activateHeal() {
     // Heal Frieren
     frierenHealth += 15;
     if (frierenHealth > 100) {
-        frierenHealth = 100; // Limit the health to maximum 100
+        frierenHealth = 100;
     }
-    updateHealthBars(); // Update health bars after healing
+    updateHealthBars();
 
-    // Remove the heal gif after a delay (optional)
+    // Remove the heal gif after a delay
     setTimeout(() => {
         if (healGif.parentNode) {
             healGif.parentNode.removeChild(healGif);
         }
-    }, 1000); // Adjust the delay as needed
+    }, 1000);
 }
 
 // Orcs abilities
-// Function to handle Orcs' automatic attack
+// Function to handle Orcs automatic attack
 function orcAttack() {
-    // Get the position of Orcs' pfp
+    // Get the position of Orcs pfp
     let orcsPosition = document.querySelector('.pfp-container-orcs').getBoundingClientRect();
     let orcsCenterX = orcsPosition.left + orcsPosition.width / 2;
     let orcsCenterY = orcsPosition.top + orcsPosition.height / 2;
 
-    // Create gif element for Orcs' attack
+    // Create gif element for Orcs attack
     let orcBlastGif = document.createElement('img');
     orcBlastGif.src = 'assets/blast.gif';
     orcBlastGif.classList.add('orc-blast');
@@ -260,27 +258,27 @@ function orcAttack() {
         let frierenCenterX = frierenPosition.left + frierenPosition.width / 2;
         let frierenCenterY = frierenPosition.top + frierenPosition.height / 2;
 
-        // Calculate the distance between the orc's attack and Frieren's center
+        // Calculate the distance between the orcs attack and Frieren's center
         let distanceToFrierenCenter = Math.abs(distance - frierenCenterX);
 
-        // If the orc's attack is close enough to Frieren's center, consider it a hit
+        // If the orc's attack is close enough to Frieren's center it hits
         if (distanceToFrierenCenter <= 20) {
-            clearInterval(orcBlastInterval); // Stop the animation
-            document.querySelector('.game-display').removeChild(orcBlastGif); // Remove the gif
+            clearInterval(orcBlastInterval);
+            document.querySelector('.game-display').removeChild(orcBlastGif);
             // Deal damage to Frieren
             dealDamageToFrieren(45);
         }
-    }, 20); // Adjust the interval as needed
+    }, 20);
 }
 
-// Function to handle Orcs' heal activation
+// Function to handle Orcs heal activation
 function activateOrcsHeal() {
-    // Create gif element for Orcs' heal
+    // Create gif element for Orcs heal
     let orcHealGif = document.createElement('img');
     orcHealGif.src = 'assets/heal.gif';
     orcHealGif.classList.add('heal');
 
-    // Position the heal gif on top of Orcs' pfp
+    // Position the heal gif on top of Orcs pfp
     let orcsPosition = document.querySelector('.pfp-container-orcs').getBoundingClientRect();
     orcHealGif.style.left = orcsPosition.left + 14 + 'px';
     orcHealGif.style.top = orcsPosition.top + 20 + 'px';
@@ -291,23 +289,22 @@ function activateOrcsHeal() {
     // Heal Orcs
     orcsHealth += 15;
     if (orcsHealth > 100) {
-        orcsHealth = 100; // Limit the health to maximum 100
+        orcsHealth = 100;
     }
-    updateHealthBars(); // Update health bars after healing
+    updateHealthBars();
 
-    // Remove the heal gif after a delay (optional)
+    // Remove the heal gif after a delay
     setTimeout(() => {
         if (orcHealGif.parentNode) {
             orcHealGif.parentNode.removeChild(orcHealGif);
         }
-    }, 1000); // Adjust the delay as needed
+    }, 1000);
 }
 
 // Add an event listener to the start button
 document.querySelector('.start-button').addEventListener('click', function () {
-    if (!fightStarted) { // Check if the fight hasn't started yet
+    if (!fightStarted) {
         startFight();
-        // Remove the "disabled" class from buttons
         document.querySelectorAll('.attack-button, .heal-button, .shield-button').forEach(function(button) {
             button.classList.remove('disabled');
         });
@@ -319,7 +316,7 @@ function isShieldActive() {
     return shieldActive;
 }
 
-// Function to deal damage to Frieren, considering the shield
+// Function to deal damage to Frieren
 function dealDamageToFrieren(damage) {
     if (!isShieldActive()) {
         frierenHealth -= damage;
@@ -327,14 +324,15 @@ function dealDamageToFrieren(damage) {
             frierenHealth = 0;
             endGame("You Died!");
         }
-        updateHealthBars(); // Update health bars after taking damage
+        updateHealthBars();
     }
 }
+
 // Function to trigger abilities based on the value of the ability display
 function triggerAbility() {
     const abilityDisplay = document.querySelector('.ability-display');
-    const ability = abilityDisplay.innerText.trim(); // Get the text content and remove any leading/trailing whitespace
-    console.log('Displayed ability:', ability); // Log the displayed ability for debugging
+    const ability = abilityDisplay.innerText.trim();
+    console.log('Displayed ability:', ability);
 
     // Trigger abilities based on the displayed ability
     switch (ability) {
@@ -357,13 +355,12 @@ function triggerAbility() {
             }
             break;
         default:
-            // Do nothing for other abilities
             break;
     }
 }
 
 // Call the triggerAbility function periodically to check for ability changes
-setInterval(triggerAbility, 1000); // Adjust the interval as needed// Initial health bar update
+setInterval(triggerAbility, 1000);
 updateHealthBars();
-// Update cooldown timers every 100 milliseconds
+// Update cooldown timers every 0.1s
 setInterval(handleCooldowns, 100);

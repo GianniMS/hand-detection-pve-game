@@ -11,9 +11,6 @@ let webcamRunning = false;
 // Array to store training data
 let trainingData = [];
 
-// Before we can use HandLandmarker class we must wait for it to finish
-// loading. Machine Learning models can be large and take a moment to
-// get everything needed to run.
 const createHandLandmarker = async () => {
     const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
@@ -33,11 +30,9 @@ const video = document.getElementById("webcam");
 const canvasElement = document.getElementById("canvas");
 const canvasCtx = canvasElement.getContext("2d");
 
-// Check if webcam access is supported.
+// Check if webcam access is supported
 const hasGetUserMedia = () => !!navigator.mediaDevices?.getUserMedia;
 
-// If webcam supported, add event listener to button for when user
-// wants to activate it.
 if (hasGetUserMedia()) {
     enableWebcamButton = document.getElementById("start-training");
     enableWebcamButton.addEventListener("click", enableCam);
@@ -45,7 +40,7 @@ if (hasGetUserMedia()) {
     console.warn("getUserMedia() is not supported by your browser");
 }
 
-// Enable the live webcam view and start detection.
+// Enable the live webcam view and start detection
 function enableCam(event) {
     if (!handLandmarker) {
         console.log("Wait! objectDetector not loaded yet.");
@@ -55,21 +50,19 @@ function enableCam(event) {
     if (webcamRunning === true) {
         webcamRunning = false;
         enableWebcamButton.textContent = "Start Training";
-        enableWebcamButton.classList.remove('stop-training'); // Remove the class
-        video.pause(); // Pause the video when training is stopped
+        enableWebcamButton.classList.remove('stop-training');
+        video.pause();
         return;
     } else {
         webcamRunning = true;
         enableWebcamButton.textContent = "Stop Training";
-        enableWebcamButton.classList.add('stop-training'); // Add the class
+        enableWebcamButton.classList.add('stop-training');
     }
 
-    // getUsermedia parameters.
     const constraints = {
         video: true
     };
 
-    // Activate the webcam stream.
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         video.srcObject = stream;
         video.play(); // Start the video when training is started
@@ -86,7 +79,6 @@ async function predictWebcam() {
     canvasElement.width = video.videoWidth;
     canvasElement.height = video.videoHeight;
 
-    // Now let's start detecting the stream.
     if (runningMode === "IMAGE") {
         runningMode = "VIDEO";
         await handLandmarker.setOptions({ runningMode: "VIDEO" });
@@ -109,7 +101,6 @@ async function predictWebcam() {
     }
     canvasCtx.restore();
 
-    // Call this function again to keep predicting when the browser is ready.
     if (webcamRunning === true) {
         window.requestAnimationFrame(predictWebcam);
     }

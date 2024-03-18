@@ -12,6 +12,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(join(__dirname, 'public')));
 
+// Serve files
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'index.html'));
 });
@@ -33,10 +34,13 @@ const testData = newData.slice(splitIndex);
 // Train the KNN model using the training dataset
 trainData.forEach(({ landmarks, action }, index) => {
     machine.learn(landmarks, action);
+    // Log to prove model size and diversity
+    console.log(`Training data point ${index + 1}: Action=${action}`);
 });
 
 app.use(bodyParser.json());
 
+// Route for handling predictions for gameplay
 app.post('/predict', (req, res) => {
     try {
         const landmarks = req.body.landmarks;
@@ -48,7 +52,7 @@ app.post('/predict', (req, res) => {
     }
 });
 
-// Route for handling test rounds
+// Route for handling testing
 app.post('/test', (req, res) => {
     try {
         const landmarks = req.body.landmarks;
@@ -70,6 +74,7 @@ app.post('/feedback', (req, res) => {
         } else {
             correctPredictions = Math.max(correctPredictions - 1, 0);
         }
+        // Calculate percentage
         const accuracy = (correctPredictions / testData.length) * 100;
         console.log(`Accuracy: ${accuracy}%`);
         res.sendStatus(200);
@@ -79,6 +84,7 @@ app.post('/feedback', (req, res) => {
     }
 });
 
+// Check if server is live
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
 });

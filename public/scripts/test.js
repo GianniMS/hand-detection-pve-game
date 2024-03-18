@@ -115,7 +115,7 @@ async function sendLandmarksForTesting(landmarks) {
     });
     const data = await response.json();
     console.log(`Testing result: ${data.prediction}`);
-    // You can update UI or perform any other action based on testing result here
+
     updateUI(data.prediction);
 }
 
@@ -131,7 +131,6 @@ function updateUI(prediction) {
         "idle": "Test result: Idle pose"
     };
 
-    // Update the UI with the corresponding ability
     abilityDisplay.textContent = abilityMap[prediction];
 }
 
